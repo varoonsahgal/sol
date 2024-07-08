@@ -8,6 +8,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class ConsoleCard {
 
+    //Spring will autowire the BEAN for you here!!
     // TRANSFORM Domain Object -> Console Output
     //  Card --> String
     public static String display(Card card) {
