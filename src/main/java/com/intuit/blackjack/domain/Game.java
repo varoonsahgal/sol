@@ -1,5 +1,7 @@
 package com.intuit.blackjack.domain;
 
+import com.intuit.blackjack.domain.port.GameMonitor;
+
 public class Game {
 
     private final Deck deck;
@@ -11,6 +13,14 @@ public class Game {
 
     public Game(Deck deck) {
         this.deck = deck;
+    }
+
+    private GameMonitor gameMonitor;
+
+    public Game(Deck deck, GameMonitor gameMonitor) {
+        this.deck = deck;
+        this.gameMonitor = gameMonitor;
+        // assign Deck & GameMonitor to private final fields
     }
 
     public void initialDeal() {
@@ -50,6 +60,10 @@ public class Game {
                 dealerHand.drawFrom(deck);
             }
         }
+        else
+            gameMonitor.roundCompleted(this);
+
+
     }
 
     // QUERY METHOD RULE
@@ -75,10 +89,16 @@ public class Game {
     public void playerHits() {
         playerHand.drawFrom(deck);
         playerDone = playerHand.isBusted();
+        if(playerDone)
+            gameMonitor.roundCompleted(this);
+
     }
 
     public void playerStands() {
         playerDone = true;
+        dealerTurn();
+        //at this point we KNOW that one round of blackjack has finished
+        gameMonitor.roundCompleted(this);
     }
 
     public boolean isPlayerDone() {

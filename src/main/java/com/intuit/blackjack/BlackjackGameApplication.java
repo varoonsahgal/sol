@@ -1,14 +1,22 @@
 package com.intuit.blackjack;
 
+import com.intuit.blackjack.adapter.out.gamepersistence.GameResultRepository;
+import com.intuit.blackjack.adapter.out.gamepersistence.PersistGameMonitor;
 import com.intuit.blackjack.domain.Deck;
 import com.intuit.blackjack.domain.Game;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+//how does Spring know WHERE To look for beans?
+// From wherever the @SpringBootApplication annotation is and from that package down
 @SpringBootApplication
 public class BlackjackGameApplication {
+
+//    @Autowired
+//    private GameResultRepository gameResultRepository;
 
     public static void main(String[] args) {
         ApplicationContext ac =   SpringApplication.run(BlackjackGameApplication.class, args);
@@ -42,9 +50,8 @@ public class BlackjackGameApplication {
     //no - because Spring uses the return value
     // of the method for the bean...
     @Bean
-    public Game createGame()
+    public Game createGame(PersistGameMonitor persistGameMonitor)
     {
-        return new Game(new Deck());
-
+        return new Game(new Deck(), persistGameMonitor );
     }
 }

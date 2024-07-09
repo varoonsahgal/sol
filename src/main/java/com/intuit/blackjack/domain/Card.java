@@ -1,5 +1,6 @@
 package com.intuit.blackjack.domain;
 
+
 public class Card {
     private final Suit suit;
     private final Rank rank;
