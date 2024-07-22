@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 
 //how does Spring know WHERE To look for beans?
 // From wherever the @SpringBootApplication annotation is and from that package down
@@ -50,6 +51,7 @@ public class BlackjackGameApplication {
     //no - because Spring uses the return value
     // of the method for the bean...
     @Bean
+    @Scope("prototype")
     public Game createGame(PersistGameMonitor persistGameMonitor)
     {
         return new Game(new Deck(), persistGameMonitor );

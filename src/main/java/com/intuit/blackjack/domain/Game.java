@@ -23,6 +23,13 @@ public class Game {
         // assign Deck & GameMonitor to private final fields
     }
 
+
+    public void reset(){
+        playerHand.clear();
+        dealerHand.clear();
+        playerDone = false;
+    }
+
     public void initialDeal() {
         dealRoundOfCards();
         dealRoundOfCards();

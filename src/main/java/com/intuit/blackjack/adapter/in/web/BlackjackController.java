@@ -1,6 +1,7 @@
 package com.intuit.blackjack.adapter.in.web;
 
 
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.intuit.blackjack.domain.Game;
@@ -13,18 +14,44 @@ public class BlackjackController {
 
     //what should be a class field here??
     // Game!!
-    private final Game game;
+    private Game game;
+
+    // we want to retrieve the Game bean from this ObjectFactory
+    //but currently we are receiving the Game bean
+    private final ObjectFactory<Game> gameFactory;
+
+
+    @Autowired
+    public BlackjackController(ObjectFactory<Game> gameFactory) {
+        this.gameFactory = gameFactory;
+
+        //we want to get game from the factory
+        game = gameFactory.getObject();
+    }
+
 
     // Spring will pass in the game object
     // for you here because we
     // defined it as a Bean in BlackjackGameApplication.java
-    @Autowired
-    public BlackjackController(Game game) {
-       this.game = game;
-    }
+
+
+//    @Autowired
+//    public BlackjackController(Game game) {
+//       this.game = game;
+//    }
 
     @PostMapping("/start-game")
     public String startGame() {
+        //somone clicks on play new game
+        // we WANT a NEW Game BEAN, which we retrieve from the
+        //FACTORY!!
+        game = gameFactory.getObject();
+
+        //the main difference here now with prototype is
+        // that a NEW BEAN is being created each and every time...
+        //
+
+        game.reset();
         game.initialDeal();
         return redirectBasedOnStateOfGame();
         //what is the String that we return here?
